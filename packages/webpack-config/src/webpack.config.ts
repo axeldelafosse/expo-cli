@@ -1,6 +1,4 @@
-/** @internal */ /** */
 /* eslint-env node */
-import { getConfig as getRealConfig } from '@expo/config';
 import chalk from 'chalk';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
@@ -19,7 +17,6 @@ import { parse } from 'node-html-parser';
 import path from 'path';
 import ModuleNotFoundPlugin from 'react-dev-utils/ModuleNotFoundPlugin';
 import resolveFrom from 'resolve-from';
-import { v4 as uuidV4 } from 'uuid';
 import webpack, { Configuration } from 'webpack';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 
@@ -51,7 +48,6 @@ import { HTMLLinkNode } from './plugins/ModifyHtmlWebpackPlugin';
 import { HMRPlugin, webpackDevClientEntry } from './plugins/NativeHMRPlugin/NativeHMRPlugin';
 import { Arguments, Environment, FilePaths, Mode } from './types';
 
-// import ExpoAppManifestWebpackPlugin from './plugins/ExpoAppManifestWebpackPlugin';
 function getDevtool(
   { production, development }: { production: boolean; development: boolean },
   { devtool }: { devtool?: string | false }
