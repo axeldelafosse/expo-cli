@@ -223,23 +223,8 @@ export default async function (env: Environment, argv: Arguments = {}): Promise<
     }
   }
   // Use a universal implementation of Webpack's remote loading method.
-  if (isDev) {
-    // https://github.com/facebook/create-react-app/blob/e59e0920f3bef0c2ac47bbf6b4ff3092c8ff08fb/packages/react-scripts/config/webpack.config.js#L144
-    // Include an alternative client for WebpackDevServer. A client's job is to
-    // connect to WebpackDevServer by a socket and get notified about changes.
-    // When you save a file, the client will either apply hot updates (in case
-    // of CSS changes), or refresh the page (in case of JS changes). When you
-    // make a syntax error, this client will display a syntax error overlay.
-    // Note: instead of the default WebpackDevServer client, we use a custom one
-    // to bring better experience for Create React App users. You can replace
-    // the line below with these two lines if you prefer the stock client:
-    // require.resolve('webpack-dev-server/client') + '?/',
-    // require.resolve('webpack/hot/dev-server'),
-    if (isNative) {
-      appEntry.push(webpackDevClientEntry);
-    } else {
-      appEntry.unshift(webpackDevClientEntry);
-    }
+  if (isDev && isNative) {
+    appEntry.unshift(webpackDevClientEntry);
   }
 
   let generatePWAImageAssets: boolean = !isNative && !isDev;

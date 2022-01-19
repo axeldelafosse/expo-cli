@@ -297,18 +297,20 @@ export async function startAsync(
 
   const firstConfig = Object.values(configs)[0];
   // @ts-ignore: untyped
-  if (firstConfig.devServer?.onBeforeSetupMiddleware) {
+  if (firstConfig.devServer?.setupMiddlewares) {
     // @ts-ignore: untyped
-    const beforeFunc = firstConfig.devServer?.onBeforeSetupMiddleware ?? function () {};
+    const beforeFunc = firstConfig.devServer?.setupMiddlewares ?? function () {};
     // Inject the native manifest middleware.
-    const originalBefore = beforeFunc.bind(beforeFunc);
+    const originalSetupMiddlewares = beforeFunc.bind(beforeFunc);
     // @ts-ignore: untyped
-    firstConfig.devServer!.onBeforeSetupMiddleware = devServer => {
-      originalBefore(devServer);
+    firstConfig.devServer!.setupMiddlewares = (middlewares, devServer) => {
+      const nextMiddlewares = originalSetupMiddlewares(middlewares, devServer);
 
       if (nativeMiddleware?.middleware) {
-        devServer.app?.use(nativeMiddleware.middleware);
+        nextMiddlewares.push(nativeMiddleware.middleware);
+        // devServer.app?.use(nativeMiddleware.middleware);
       }
+      return nextMiddlewares;
     };
   } else if (isTargetingNative()) {
     throw new Error('Webpack for native is only supported on Webpack 5+');
