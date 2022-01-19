@@ -232,17 +232,17 @@ export function createDevServer(
       // Keep `evalSourceMapMiddleware`
       // middlewares before `redirectServedPath` otherwise will not have any effect
       // This lets us fetch source contents from webpack for the error overlay
-      devServer.app.use(evalSourceMapMiddleware(devServer));
+      devServer.app?.use(evalSourceMapMiddleware(devServer));
 
       // Support Metro assets redirect
-      devServer.app.use(
+      devServer.app?.use(
         // @ts-ignore
         createRedirectAssetPathsMiddleware(env.projectRoot, devServer.compiler)
       );
     },
     onAfterSetupMiddleware(devServer) {
       // Redirect to `PUBLIC_URL` or `homepage` from `package.json` if url not match
-      devServer.app.use(redirectServedPath(publicUrlOrPath));
+      devServer.app?.use(redirectServedPath(publicUrlOrPath));
 
       // if (isNative) {
       //   return;
@@ -253,7 +253,7 @@ export function createDevServer(
       // We do this in development to avoid hitting the production cache if
       // it used the same host and port.
       // https://github.com/facebook/create-react-app/issues/2272#issuecomment-302832432
-      devServer.app.use(noopServiceWorkerMiddleware(publicUrlOrPath));
+      devServer.app?.use(noopServiceWorkerMiddleware(publicUrlOrPath));
     },
 
     // // TODO: Verify these work in Webpack 5 on web
