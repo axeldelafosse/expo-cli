@@ -98,9 +98,7 @@ export default function withDevServer(
   env: SelectiveEnv,
   options: DevServerOptions = {}
 ): Configuration {
-  // if (webpackConfig?.mode === 'development') {
   webpackConfig.devServer = createDevServer(env, options);
-  // }
   return webpackConfig;
 }
 
