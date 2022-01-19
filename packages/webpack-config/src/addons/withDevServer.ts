@@ -18,7 +18,6 @@ import type {
 import { getPaths, getPublicPaths } from '../env';
 import { host, sockHost, sockPath, sockPort } from '../env/defaults';
 import { Environment } from '../types';
-// import { createRedirectAssetPathsMiddleware } from './createRedirectAssetPathsMiddleware';
 
 // Ensure the certificate and key provided are valid and if not
 // throw an easy to debug error
@@ -125,11 +124,6 @@ export function createDevServer(
   const mimeTypes: any = {
     bundle: 'text/javascript',
   };
-  // const mimeTypes: any = isNative
-  //   ? {
-  //       bundle: 'text/javascript',
-  //     }
-  //   : undefined;
 
   const disableFirewall = !proxy || process.env.DANGEROUSLY_DISABLE_HOST_CHECK === 'true';
 
@@ -225,14 +219,15 @@ export function createDevServer(
       // See https://github.com/facebook/create-react-app/issues/387.
       disableDotRule: true,
       index: publicUrlOrPath,
+      // @ts-ignore
       rewrites: [
-        {
+        isNative && {
           from: /^\/assets\/.*$/,
           to: ((context: import('connect-history-api-fallback').Context) => {
             return context.parsedUrl.pathname;
           }) as import('connect-history-api-fallback').RewriteTo,
         },
-      ],
+      ].filter(Boolean),
     },
 
     // `proxy` is run between `before` and `after` `webpack-dev-server` hooks
@@ -255,17 +250,7 @@ export function createDevServer(
         noopServiceWorkerMiddleware(publicUrlOrPath)
       );
 
-      // Support Metro assets redirect
-      // devServer.app?.use(
-      //   // @ts-ignore
-      //   createRedirectAssetPathsMiddleware(env.projectRoot, devServer.compiler)
-      // );
-
       return middlewares;
     },
-
-    // // TODO: Verify these work in Webpack 5 on web
-    // // Specify the mimetypes for hosting native bundles.
-    // mimeTypes,
   };
 }
