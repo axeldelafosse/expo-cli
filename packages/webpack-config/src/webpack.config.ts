@@ -58,7 +58,6 @@ import {
 } from './plugins';
 // import ExpoAppManifestWebpackPlugin from './plugins/ExpoAppManifestWebpackPlugin';
 import { HTMLLinkNode } from './plugins/ModifyHtmlWebpackPlugin';
-// import { NativeOutputPlugin } from './plugins/NativeOutputPlugin/NativeOutputPlugin';
 import { Arguments, Environment, FilePaths, Mode } from './types';
 
 function getDevtool(
@@ -592,22 +591,6 @@ export default async function (env: Environment, argv: Arguments = {}): Promise<
           chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
         }),
 
-      // isNative &&
-      //   isProd &&
-      //   new NativeOutputPlugin({
-      //     // entryFile,
-      //     // bundleOutput: bundleFile,
-      //     // assetsDest: destination,
-
-      //     // @ts-ignore
-      //     assetsDest: env.assetDest,
-      //     platform: env.platform,
-      //     projectRoot: env.projectRoot,
-      //     // @ts-ignore
-      //     bundleOutput: env.bundleOutput, // path.join(env.projectRoot, 'build', env.platform),
-      //     // localChunks: [/Async/],
-      //     // remoteChunksOutput: path.join(env.projectRoot, 'build', env.platform, 'remote'),
-      //   }),
       // Generate an asset manifest file with the following content:
       // - "files" key: Mapping of all asset filenames to their corresponding
       //   output file so that tools can pick it up without having to parse

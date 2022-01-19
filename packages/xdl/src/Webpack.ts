@@ -283,7 +283,6 @@ export async function startAsync(
     configs[platform] = config;
   }
 
-  // const webpack = require(resolveFrom(projectRoot, 'webpack'));
   // Create a basic webpack compiler
   const compiler = webpack(Object.values(configs));
 
@@ -299,16 +298,14 @@ export async function startAsync(
   // @ts-ignore: untyped
   if (firstConfig.devServer?.setupMiddlewares) {
     // @ts-ignore: untyped
-    const beforeFunc = firstConfig.devServer?.setupMiddlewares ?? function () {};
+    const func = firstConfig.devServer?.setupMiddlewares ?? function () {};
     // Inject the native manifest middleware.
-    const originalSetupMiddlewares = beforeFunc.bind(beforeFunc);
+    const originalSetupMiddlewares = func.bind(func);
     // @ts-ignore: untyped
     firstConfig.devServer!.setupMiddlewares = (middlewares, devServer) => {
       const nextMiddlewares = originalSetupMiddlewares(middlewares, devServer);
-
       if (nativeMiddleware?.middleware) {
         nextMiddlewares.push(nativeMiddleware.middleware);
-        // devServer.app?.use(nativeMiddleware.middleware);
       }
       return nextMiddlewares;
     };
