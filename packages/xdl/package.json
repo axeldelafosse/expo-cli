@@ -94,7 +94,7 @@
     "url-join": "4.0.0",
     "uuid": "^8.0.0",
     "webpack": "^5.64.4",
-    "webpack-dev-server": "^4.6.0",
+    "webpack-dev-server": "^4.7.3",
     "wrap-ansi": "^7.0.0"
   },
   "devDependencies": {
@@ -116,7 +116,6 @@
     "@types/url-join": "^4.0.0",
     "@types/uuid": "^8.3.1",
     "@types/webpack": "^5.28.0",
-    "@types/webpack-dev-server": "^4.7.2",
     "@types/wrap-ansi": "^3.0.0",
     "hashids": "1.1.4",
     "tempy": "^0.7.1"

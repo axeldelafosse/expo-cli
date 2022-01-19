@@ -17,7 +17,7 @@ import type {
 import { getPaths, getPublicPaths } from '../env';
 import { host, sockHost, sockPath, sockPort } from '../env/defaults';
 import { Environment } from '../types';
-import { createRedirectAssetPathsMiddleware } from './createRedirectAssetPathsMiddleware';
+// import { createRedirectAssetPathsMiddleware } from './createRedirectAssetPathsMiddleware';
 
 // Ensure the certificate and key provided are valid and if not
 // throw an easy to debug error
@@ -224,6 +224,14 @@ export function createDevServer(
       // See https://github.com/facebook/create-react-app/issues/387.
       disableDotRule: true,
       index: publicUrlOrPath,
+      rewrites: [
+        {
+          from: /^\/assets\/.*$/,
+          to: ((context: import('connect-history-api-fallback').Context) => {
+            return context.parsedUrl.pathname;
+          }) as import('connect-history-api-fallback').RewriteTo,
+        },
+      ],
     },
 
     // `proxy` is run between `before` and `after` `webpack-dev-server` hooks
@@ -235,12 +243,12 @@ export function createDevServer(
       devServer.app?.use(evalSourceMapMiddleware(devServer));
 
       // Support Metro assets redirect
-      devServer.app?.use(
-        // @ts-ignore
-        createRedirectAssetPathsMiddleware(env.projectRoot, devServer.compiler)
-      );
+      // devServer.app?.use(
+      //   // @ts-ignore
+      //   createRedirectAssetPathsMiddleware(env.projectRoot, devServer.compiler)
+      // );
     },
-    onAfterSetupMiddleware(devServer) {
+    setupMiddlewares(middlewares, devServer) {
       // Redirect to `PUBLIC_URL` or `homepage` from `package.json` if url not match
       devServer.app?.use(redirectServedPath(publicUrlOrPath));
 
@@ -254,6 +262,7 @@ export function createDevServer(
       // it used the same host and port.
       // https://github.com/facebook/create-react-app/issues/2272#issuecomment-302832432
       devServer.app?.use(noopServiceWorkerMiddleware(publicUrlOrPath));
+      return middlewares;
     },
 
     // // TODO: Verify these work in Webpack 5 on web
