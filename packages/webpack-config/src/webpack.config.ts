@@ -20,12 +20,11 @@ import { parse } from 'node-html-parser';
 import path from 'path';
 import ModuleNotFoundPlugin from 'react-dev-utils/ModuleNotFoundPlugin';
 import resolveFrom from 'resolve-from';
-import { TypePredicateKind } from 'typescript';
 import url from 'url';
 import { v4 as uuidV4 } from 'uuid';
 import webpack, { Configuration } from 'webpack';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
-import { ManifestHandler, ProjectAssets, ProjectSettings } from 'xdl';
+import { ProjectAssets, ProjectSettings } from 'xdl';
 
 import { withAlias, withDevServer, withOptimizations, withPlatformSourceMaps } from './addons';
 import {
