@@ -2,7 +2,6 @@ import spawnAsync from '@expo/spawn-async';
 import fs from 'fs-extra';
 import path from 'path';
 import resolveFrom from 'resolve-from';
-import { Webpack } from 'xdl';
 
 import { AbortCommandError } from '../../../CommandError';
 import Log from '../../../log';
