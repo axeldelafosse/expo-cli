@@ -35,7 +35,6 @@
     "@expo/config-types": "^43.0.1",
     "json-schema-deref-sync": "^0.13.0",
     "uuid": "3.3.2",
-    "internal-ip": "4.3.0",
     "tar": "^6.0.5",
     "getenv": "^1.0.0",
     "concat-stream": "1.6.2",
